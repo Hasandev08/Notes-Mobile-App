@@ -14,11 +14,13 @@ import Note from '../components/Note'
 import NoteInputModal from '../components/NoteInputModal'
 import RoundIconBtn from '../components/RoundIconBtn'
 import SearchBar from '../components/SearchBar'
+import { useNotes } from '../context/NoteProvider'
 
 const NoteScreen = ({ user, navigation }) => {
   const [greet, setGreet] = useState('Evening')
   const [modalVisible, setModalVisible] = useState(false)
-  const [notes, setNotes] = useState([])
+
+  const { notes, setNotes } = useNotes()
 
   const findGreet = () => {
     const hours = new Date().getHours()
@@ -27,13 +29,7 @@ const NoteScreen = ({ user, navigation }) => {
     setGreet('Evening')
   }
 
-  const findNotes = async () => {
-    const result = await AsyncStorage.getItem('notes')
-    if (result !== null) setNotes(JSON.parse(result))
-  }
-
   useEffect(() => {
-    findNotes()
     findGreet()
   }, [])
 
